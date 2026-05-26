@@ -86,3 +86,61 @@ df.groupBy(F.col("Athlete year of birth")).count().orderBy("Athlete year of birt
 # COMMAND ----------
 
 df.groupBy(F.col("Athlete country")).count().orderBy("count", ascending=False).show()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Participants with no avg speed registred
+# MAGIC
+
+# COMMAND ----------
+
+from pyspark.sql.functions import col
+df.filter(col("Athlete average speed").try_cast("double") <= 0).display()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Total duplicates in dataset
+
+# COMMAND ----------
+
+total = df.count()
+unique = df.dropDuplicates().count()
+
+print(f"Total: {total}")
+print(f"Unique rows: {unique}")
+print(f"Duplicates: {total - unique}")
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### 
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Athletes with several race entries
+
+# COMMAND ----------
+
+df.groupBy("Athlete Id").count().filter(F.col("count") > 1).show()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Nr of unique countries
+
+# COMMAND ----------
+
+df.select(F.col("Athlete country")).distinct().count()
+
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Nr of unique clubs
+
+# COMMAND ----------
+
+df.select(F.col("Athlete club")).distinct().count()
