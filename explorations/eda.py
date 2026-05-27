@@ -144,3 +144,8 @@ df.select(F.col("Athlete country")).distinct().count()
 # COMMAND ----------
 
 df.select(F.col("Athlete club")).distinct().count()
+
+# COMMAND ----------
+
+df = spark.table("marathos.silver.races_clean")
+print(df.columns)
