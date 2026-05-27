@@ -44,7 +44,7 @@ df.printSchema()
 
 # COMMAND ----------
 
-df.describe()
+df.describe().display()
 
 # COMMAND ----------
 
@@ -96,7 +96,7 @@ df.groupBy(F.col("Athlete country")).count().orderBy("count", ascending=False).s
 # COMMAND ----------
 
 from pyspark.sql.functions import col
-df.filter(col("Athlete average speed").try_cast("double") <= 0).display()
+df.filter(col("Athlete average speed").isNull()).count()
 
 # COMMAND ----------
 
@@ -144,8 +144,3 @@ df.select(F.col("Athlete country")).distinct().count()
 # COMMAND ----------
 
 df.select(F.col("Athlete club")).distinct().count()
-
-# COMMAND ----------
-
-df = spark.table("marathos.silver.races_clean")
-print(df.columns)
