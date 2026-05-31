@@ -5,4 +5,4 @@ SELECT DISTINCT
   athlete_club,
   athlete_country,
   athlete_year_of_birth
-FROM marathos.silver.races_clean
+FROM marathos.silver.races_clean_obt

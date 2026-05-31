@@ -7,4 +7,4 @@ SELECT
   athlete_average_speed,
   year_of_event,
   event_unit
-FROM marathos.silver.races_clean
+FROM marathos.silver.races_clean_obt

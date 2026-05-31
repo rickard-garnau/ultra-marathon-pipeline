@@ -11,4 +11,4 @@ SELECT DISTINCT
   event_number_of_finishers,
   event_dates
 FROM
-  marathos.silver.races_clean
+  marathos.silver.races_clean_obt
