@@ -22,12 +22,12 @@ Raw ingestion via `readStream` from volume. Schema inferred from a static read a
 
 **Silver** (`marathos.silver.races_clean_obt`)  
 6.67M rows after cleaning (~10.6% dropped). Key transformations:
-- Unit standardization: `Miles/Mile` → `mi`, trailing `k` → `km`, `mi` → `km` conversion
+- Unit standardization: `Miles/Mile` → `mi`, trailing `k` -> `km`, `mi` -> `km` conversion
 - `event_unit` extracted as separate column before distance cast
 - Performance converted to decimal hours (distance races) or decimal km (timed races)
 - Dates: start date extracted from interval format, parsed to `DateType`
-- Gender mapped: `M/F/X` → `Male/Female/Other`, unknown → `null`
-- Year of birth outside 1700–2005 → `null`
+- Gender mapped: `M/F/X` -> `Male/Female/Other`, unknown -> `null`
+- Year of birth outside 1700–2005 -> `null`
 - `event_country` extracted via regex from event name
 - `event_id` and `athlete_id` generated with `sha2`
 - Relay races, distances > 500, and rows with invalid characters dropped
@@ -55,6 +55,17 @@ Gold tables linked to a Databricks Genie space for ad hoc questions. Answers ver
 - Genie initially returned incorrect aggregations (summing `event_number_of_finishers` instead of counting rows)
 - After rephrasing queries with explicit column and table references, all answers matched manual calculations
 
+## Dashboard
+
+![Dashboard](assets/dashboard_1.png)
+![Dashboard](assets/dashboard_2.png)
+![Dashboard](assets/dashboard_3.png)
+![Dashboard](assets/dashboard_4.png)
+
+Genie space with verified answers:
+
+![Genie](assets/genie_dashboard.png)
+
 ## Structure
 
 ```
@@ -73,3 +84,10 @@ utils/
   utils.py
   country_codes.py
 ```
+
+## Sources
+
+- Course material: [AIgineerAB](https://github.com/AIgineerAB/cloud_databricks_azure_course)
+- Date dimension: [Build & Refresh a Calendar Dates Table — Databricks Community](https://community.databricks.com/t5/community-articles/build-amp-refresh-a-calendar-dates-table/td-p/90809)
+- Peer discussions: class Discord
+- LLM assistance: Claude (Anthropic) — used for code review, debugging and smaller implementations
