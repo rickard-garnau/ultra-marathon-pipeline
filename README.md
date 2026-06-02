@@ -40,6 +40,8 @@ Dimensional model:
 | `fct_results` | One row per athlete result |
 | `dim_event` | One row per unique event, `MAX` on finishers/dates |
 | `dim_athlete` | One row per unique athlete, `MAX` on mutable attributes |
+| `dim_date` | Calendar dimension covering 1900–2030, joinable on `event_dates` |
+
 
 Analytical views:
 - `v_distance_speed_by_country` — avg speed per country, distance races
