@@ -1,4 +1,4 @@
-CREATE MATERIALIZED VIEW marathos.gold.v_time_top_events_by_finishers AS
+CREATE MATERIALIZED VIEW marathos.gold.mart_time_top_events_by_finishers AS
 SELECT
   event_name,
   MAX(event_number_of_finishers) AS most_finishers

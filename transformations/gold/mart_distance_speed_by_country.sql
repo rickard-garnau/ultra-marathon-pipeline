@@ -1,4 +1,4 @@
-CREATE MATERIALIZED VIEW marathos.gold.v_distance_speed_by_country AS
+CREATE MATERIALIZED VIEW marathos.gold.mart_distance_speed_by_country AS
 SELECT cc.country_name, AVG(r.athlete_average_speed) AS avg_speed
 FROM marathos.gold.fct_results AS r
 LEFT JOIN marathos.gold.dim_event AS de ON r.event_id = de.event_id

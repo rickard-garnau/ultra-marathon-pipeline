@@ -5,7 +5,8 @@ Medallion pipeline for ultra marathon race data built on Databricks with Delta L
 ## Dataset
 
 7.4M rows of ultra marathon results covering events from 1798 to 2022. Source: Kaggle.
-Additional dataset added manually: Stockholm Marathon 2024 (15 participants).
+Stockholm Marathon 2024 is LLM-generated mock data added to test pipeline ingestion of new files.
+
 
 ## Pipeline
 
@@ -44,10 +45,10 @@ Dimensional model:
 
 
 Analytical views:
-- `v_distance_speed_by_country` — avg speed per country, distance races
-- `v_distance_avg_time_by_bucket` — avg finish time per distance bucket
-- `v_time_avg_distance_by_age` — avg distance per age category, timed races
-- `v_time_top_events_by_finishers` — top 10 timed events by finisher count
+- `mart_distance_speed_by_country` — avg speed per country, distance races
+- `mart_distance_avg_time_by_bucket` — avg finish time per distance bucket
+- `mart_time_avg_distance_by_age` — avg distance per age category, timed races
+- `mart_time_top_events_by_finishers` — top 10 timed events by finisher count
 
 ## Genie
 
