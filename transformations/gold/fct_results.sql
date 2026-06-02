@@ -4,7 +4,7 @@ SELECT
   athlete_id,
   athlete_performance,
   athlete_age_category,
-  athlete_average_speed,
+  CAST(athlete_average_speed AS DOUBLE) AS athlete_average_speed,
   year_of_event,
   event_unit
 FROM marathos.silver.races_clean_obt
