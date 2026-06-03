@@ -1,4 +1,4 @@
-CREATE MATERIALIZED VIEW marathos.gold.v_time_avg_distance_by_age AS 
+CREATE MATERIALIZED VIEW marathos.gold.mart_time_avg_distance_by_age AS 
 SELECT
   athlete_age_category,
   AVG(event_distance_length) as avg_time_age

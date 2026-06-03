@@ -1,4 +1,4 @@
-CREATE MATERIALIZED VIEW marathos.gold.v_distance_avg_time_by_bucket AS
+CREATE MATERIALIZED VIEW marathos.gold.mart_distance_avg_time_by_bucket AS
 SELECT
   CASE
     WHEN de.event_distance_length <= 50 THEN '0-50km'
