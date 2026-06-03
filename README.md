@@ -50,12 +50,6 @@ Analytical views:
 - `mart_time_avg_distance_by_age` — avg distance per age category, timed races
 - `mart_time_top_events_by_finishers` — top 10 timed events by finisher count
 
-## Genie
-
-Gold tables linked to a Databricks Genie space for ad hoc questions. Answers verified manually in `explorations/genie_validation`. Key findings:
-- Genie initially returned incorrect aggregations (summing `event_number_of_finishers` instead of counting rows)
-- After rephrasing queries with explicit column and table references, all answers matched manual calculations
-
 ## Dashboard
 
 ![Dashboard](assets/dashboard_1.png)
@@ -64,7 +58,9 @@ Gold tables linked to a Databricks Genie space for ad hoc questions. Answers ver
 ![Dashboard](assets/dashboard_4.png)
 ![Dashboard](assets/dashboard_5.png)
 
-Genie space with verified answers:
+## Genie
+
+Gold tables linked to a Databricks Genie space for ad hoc questions. Answers verified manually in `explorations/genie_validation`. All results matched manual SQL calculations.
 
 ![Genie](assets/genie_dashboard.png)
 
