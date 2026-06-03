@@ -61,6 +61,7 @@ Gold tables linked to a Databricks Genie space for ad hoc questions. Answers ver
 ![Dashboard](assets/dashboard_2.png)
 ![Dashboard](assets/dashboard_3.png)
 ![Dashboard](assets/dashboard_4.png)
+![Dashboard](assets/dashboard_5.png)
 
 Genie space with verified answers:
 
@@ -83,6 +84,9 @@ dimensional_modeling/
 utils/
   utils.py
   country_codes.py
+assets/
+  dashboard.png
+  genie_dashboard.png
 ```
 
 ## Sources
