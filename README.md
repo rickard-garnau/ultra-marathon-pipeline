@@ -4,7 +4,7 @@ Medallion pipeline for ultra marathon race data built on Databricks with Delta L
 
 ## Dataset
 
-7.4M rows of ultra marathon results covering events from 1798 to 2022. Source: Kaggle.
+7.4M rows of ultra marathon results covering events from 1990 to 2022. Source: Kaggle.
 Stockholm Marathon 2024 is LLM-generated mock data added to test pipeline ingestion of new files.
 
 
@@ -30,7 +30,7 @@ Raw ingestion via `readStream` from volume. Schema inferred from a static read a
 - Gender mapped: `M/F/X` -> `Male/Female/Other`, unknown -> `null`
 - Year of birth outside 1700–2005 -> `null`
 - `event_country` extracted via regex from event name
-- `event_id` and `athlete_id` generated with `sha2`
+- `event_id` and `athlete_id` hashed with `sha2` on name/ID fields
 - Relay races, distances > 500, and rows with invalid characters dropped
 
 **Gold** (`marathos.gold`)  
@@ -49,14 +49,22 @@ Analytical views:
 - `mart_distance_avg_time_by_bucket` — avg finish time per distance bucket
 - `mart_time_avg_distance_by_age` — avg distance per age category, timed races
 - `mart_time_top_events_by_finishers` — top 10 timed events by finisher count
+- `mart_finishers_per_year` — number of total finishers per year
 
 ## Dashboard
 
 ![Dashboard](assets/dashboard_1.png)
 ![Dashboard](assets/dashboard_2.png)
 ![Dashboard](assets/dashboard_3.png)
-![Dashboard](assets/dashboard_4.png)
-![Dashboard](assets/dashboard_5.png)
+
+Dashboard datasets (SQL, not persisted in pipeline):
+- `mart_total_results` — total race entries
+- `mart_unique_events` — count of unique events
+- `mart_start_year` — first year on record
+- `mart_unique_countries` — count of countries represented
+- `mart_gender_distribution` — race entries split by gender
+- `mart_distance_top_events_by_finishers` — top 10 distance events by finisher count
+- `mart_avg_distance_by_age` — avg distance by age category, timed races (top 15)
 
 ## Genie
 
