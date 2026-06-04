@@ -27,7 +27,7 @@ Raw ingestion via `readStream` from volume. Schema inferred from a static read a
 - `event_unit` extracted as separate column before distance cast
 - Performance converted to decimal hours (distance races) or decimal km (timed races)
 - Dates: start date extracted from interval format, parsed to `DateType`
-- Gender mapped: `M/F/X` -> `Male/Female/Other`, unknown -> `null`
+- Gender mapped: `M/F/X` -> `Male/Female/Other`, `null` -> `Other`
 - Year of birth outside 1700–2005 -> `null`
 - `event_country` extracted via regex from event name
 - `event_id` and `athlete_id` hashed with `sha2` on name/ID fields
@@ -49,7 +49,7 @@ Analytical views:
 - `mart_distance_avg_time_by_bucket` — avg finish time per distance bucket
 - `mart_time_avg_distance_by_age` — avg distance per age category, timed races
 - `mart_time_top_events_by_finishers` — top 10 timed events by finisher count
-- `mart_finishers_per_year` — number of total finishers per year
+- `mart_finishers_by_year` - amount of people completing a race yearly
 
 ## Dashboard
 

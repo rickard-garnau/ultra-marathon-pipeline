@@ -25,3 +25,16 @@ Table dim_athlete {
   athlete_country string
   athlete_year_of_birth integer
 }
+
+Table dim_date {
+  calendar_date date [primary key]
+  year integer
+  month integer
+  day integer
+  quarter integer
+  day_of_week integer
+  day_name string
+  month_name string
+}
+
+Ref: fct_results.year_of_event - dim_date.year
