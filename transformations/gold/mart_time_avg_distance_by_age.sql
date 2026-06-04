@@ -11,4 +11,5 @@ WHERE
 GROUP BY
   athlete_age_category
 ORDER BY
-  avg_time_age DESC
+  avg_time_age
+LIMIT 15;
