@@ -55,7 +55,6 @@ Analytical views:
 
 ![Dashboard](assets/dashboard_1.png)
 ![Dashboard](assets/dashboard_2.png)
-![Dashboard](assets/dashboard_3.png)
 
 Dashboard datasets (SQL, not persisted in pipeline):
 - `mart_total_results` — total race entries
