@@ -1,27 +1,65 @@
 # Marathos Lab
 
+[![Databricks](https://img.shields.io/badge/Databricks-FF3621?logo=databricks&logoColor=white)](https://www.databricks.com/)
+[![Delta Lake](https://img.shields.io/badge/Delta_Lake-00ADD8?logo=delta&logoColor=white)](https://delta.io/)
+[![PySpark](https://img.shields.io/badge/PySpark-E25A1C?logo=apachespark&logoColor=white)](https://spark.apache.org/docs/latest/api/python/)
+[![SQL](https://img.shields.io/badge/SQL-4479A1?logo=postgresql&logoColor=white)](https://en.wikipedia.org/wiki/SQL)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
+
 Medallion pipeline for ultra marathon race data built on Databricks with Delta Live Tables.
+
+---
+
+## Table of Contents
+
+- [Dataset](#dataset)
+- [Pipeline](#pipeline)
+- [Layers](#layers)
+- [Dashboard](#dashboard)
+- [Genie](#genie)
+- [Structure](#structure)
+- [Sources](#sources)
+
+---
 
 ## Dataset
 
 7.4M rows of ultra marathon results covering events from 1990 to 2022. Source: Kaggle.
 Stockholm Marathon 2024 is LLM-generated mock data added to test pipeline ingestion of new files.
 
+---
 
 ## Pipeline
 
-```
-Volume (CSV) → Bronze → Silver → Gold → Genie / Dashboard
+```text
+   Volume (CSV)
+        │
+        ▼
+   ┌─────────┐
+   │ Bronze  │  raw ingestion, readStream from volume
+   └────┬────┘
+        ▼
+   ┌─────────┐
+   │ Silver  │  cleaning & standardization
+   └────┬────┘
+        ▼
+   ┌─────────┐
+   │  Gold   │  dimensional model + analytical marts
+   └────┬────┘
+        ▼
+  Genie / Dashboard
 ```
 
 All layers run as a single DLT pipeline with wildcard source (`transformations/**`).
 
+---
+
 ## Layers
 
-**Bronze** (`marathos.bronze.races`)  
+**Bronze** (`marathos.bronze.races`)
 Raw ingestion via `readStream` from volume. Schema inferred from a static read and passed to the stream. Column mapping enabled for column names with spaces.
 
-**Silver** (`marathos.silver.races_clean_obt`)  
+**Silver** (`marathos.silver.races_clean_obt`)
 6.67M rows after cleaning (~10.6% dropped). Key transformations:
 - Unit standardization: `Miles/Mile` → `mi`, trailing `k` -> `km`, `mi` -> `km` conversion
 - `event_unit` extracted as separate column before distance cast
@@ -33,7 +71,7 @@ Raw ingestion via `readStream` from volume. Schema inferred from a static read a
 - `event_id` and `athlete_id` hashed with `sha2` on name/ID fields
 - Relay races, distances > 500, and rows with invalid characters dropped
 
-**Gold** (`marathos.gold`)  
+**Gold** (`marathos.gold`)
 Dimensional model:
 
 | Table | Description |
@@ -43,13 +81,14 @@ Dimensional model:
 | `dim_athlete` | One row per unique athlete, `MAX` on mutable attributes |
 | `dim_date` | Calendar dimension covering 1900–2030, joinable on `event_dates` |
 
-
 Analytical views:
 - `mart_distance_speed_by_country` — avg speed per country, distance races
 - `mart_distance_avg_time_by_bucket` — avg finish time per distance bucket
 - `mart_time_avg_distance_by_age` — avg distance per age category, timed races
 - `mart_time_top_events_by_finishers` — top 10 timed events by finisher count
-- `mart_finishers_by_year` - amount of people completing a race yearly
+- `mart_finishers_per_year` — amount of people completing a race yearly
+
+---
 
 ## Dashboard
 
@@ -65,37 +104,59 @@ Dashboard datasets (SQL, not persisted in pipeline):
 - `mart_distance_top_events_by_finishers` — top 10 distance events by finisher count
 - `mart_avg_distance_by_age` — avg distance by age category, timed races (top 15)
 
+---
+
 ## Genie
 
 Gold tables linked to a Databricks Genie space for ad hoc questions. Answers verified manually in `explorations/genie_validation`. All results matched manual SQL calculations.
 
 ![Genie](assets/genie_dashboard.png)
 
+---
+
 ## Structure
 
+```text
+ultra-marathon-pipeline/
+├── transformations/
+│   ├── bronze/
+│   │   └── ingestion.ipynb         # DLT ingestion
+│   ├── silver/
+│   │   └── transformation.ipynb    # cleaning and standardization
+│   └── gold/                       # dimensional model + analytical views
+│       ├── dim_athlete.sql
+│       ├── dim_date.sql
+│       ├── dim_event.sql
+│       ├── fct_results.sql
+│       ├── mart_distance_avg_time_by_bucket.sql
+│       ├── mart_distance_speed_by_country.sql
+│       ├── mart_finishers_per_year.sql
+│       ├── mart_time_avg_distance_by_age.sql
+│       └── mart_time_top_events_by_finishers.sql
+├── explorations/
+│   ├── eda_bronze.py
+│   ├── initial_setup.ipynb
+│   ├── silver_validation.ipynb
+│   └── genie_validation.ipynb
+├── dimensional_modeling/
+│   ├── dimensional modeling.png
+│   └── model.dbml
+├── utils/
+│   ├── __init__.py
+│   ├── country_codes.ipynb
+│   └── utils.py
+├── assets/
+│   ├── dashboard_1.png
+│   ├── dashboard_2.png
+│   └── genie_dashboard.png
+└── .gitignore
 ```
-transformations/
-  bronze/     DLT ingestion
-  silver/     cleaning and standardization
-  gold/       dimensional model + analytical views
-explorations/
-  eda_bronze
-  silver_validation
-  genie_validation
-dimensional_modeling/
-  model.dbml
-  _Dimensional modeling.png
-utils/
-  utils.py
-  country_codes.py
-assets/
-  dashboard.png
-  genie_dashboard.png
-```
+
+---
 
 ## Sources
 
 - Course material: [AIgineerAB](https://github.com/AIgineerAB/cloud_databricks_azure_course)
 - Date dimension: [Build & Refresh a Calendar Dates Table — Databricks Community](https://community.databricks.com/t5/community-articles/build-amp-refresh-a-calendar-dates-table/td-p/90809)
 - Peer discussions: class Discord
-- LLM assistance: Claude (Anthropic) — used for code review, debugging and smaller implementations
+- LLM assistance: Claude used for code review, debugging and smaller implementations, and for restyling this README (verified against the repository before use)
